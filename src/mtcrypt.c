@@ -122,8 +122,12 @@ static void mtcr_parse_suboptions(const struct HXoptcb *cbi)
 			else if (ret < EHD_SECURITY_UNSPEC)
 				fprintf(stderr, "Hash \"%s\" is considered "
 				        "insecure.\n", value);
-		} else if (strcmp(key, "fstype") == 0)
-			mo->fstype = value;
+		} else if (strcmp(key, "fstype") == 0) {
+			if (strcmp(value, "crypt") == 0)
+				fprintf(stderr, "Option \"fstype=crypt\" to mount.crypt ignored.\n");
+			else
+				mo->fstype = value;
+                }
 		else if (strcmp(key, "keyfile") == 0)
 			mo->fsk_file = value;
 		else if (strcmp(key, "keysize") == 0)
