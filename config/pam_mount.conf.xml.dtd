@@ -1,5 +1,5 @@
 <!ELEMENT pam_mount
-	(volume*,debug?,luserconf?,mntoptions*,
+	(debug?,volume*,luserconf?,mntoptions*,
 	path?,logout?,mkmountpoint?,fsck?,cifsmount?,
 	smbmount?,smbumount?,ncpmount?,ncpumount?,fusemount?,
 	fuseumount?,fd0ssh?,ofl?,umount?,
@@ -53,12 +53,15 @@
 <!ELEMENT sgrp (#PCDATA)>
 <!ATTLIST user
 	icase (0|1|yes|no|true|false) "no"
+	regex (0|1|yes|no|true|false) "no"
 >
 <!ATTLIST pgrp
 	icase (0|1|yes|no|true|false) "no"
+	regex (0|1|yes|no|true|false) "no"
 >
 <!ATTLIST sgrp
 	icase (0|1|yes|no|true|false) "no"
+	regex (0|1|yes|no|true|false) "no"
 >
 <!-- invert-* attributes are deprecated -->
 <!ATTLIST volume
