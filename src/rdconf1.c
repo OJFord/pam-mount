@@ -71,8 +71,8 @@ struct pmt_command {
 static int rc_volume_cond_ext(const struct passwd *, xmlNode *);
 
 /* Variables */
-static const struct callbackmap cf_tags[];
-static const struct pmt_command default_command[];
+static const struct callbackmap cf_tags[26];
+static const struct pmt_command default_command[20];
 
 //-----------------------------------------------------------------------------
 /**
