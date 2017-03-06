@@ -140,7 +140,7 @@ static bool expand_user(const char *user, char **dest_pptr,
  * Like, turning <volume server="w2k3" path="%(USER)"
  * mountpoint="~" /> into path="joe" mountpoint="/home/joe".
  */
-bool expandconfig(const struct config *config)
+bool expandconfig(struct config *config)
 {
 	const char *u = config->user;
 	struct HXformat_map *vinfo;
@@ -171,6 +171,18 @@ bool expandconfig(const struct config *config)
 	ge = getgrgid(pe->pw_gid);
 	format_add(vinfo, "GROUP", (ge != NULL) ? ge->gr_name : "");
 	misc_add_ntdom(vinfo, u);
+
+	if (config->luserconf != NULL) {
+		char *tmp = NULL;
+		tmp = xstrdup(config->luserconf);
+		if (!expand_home(u, &tmp) || !expand_user(u, &tmp, vinfo)) {
+			free(tmp);
+			goto rfalse;
+		}
+		HXmc_free(config->luserconf);
+		config->luserconf = HXmc_strinit(tmp);
+		free(tmp);
+	}
 
 	HXlist_for_each_entry(vpt, &config->volume_list, list) {
 		if (vpt->is_expanded)
@@ -755,8 +767,11 @@ static const char *rc_luserconf(xmlNode *node, struct config *config,
 	if ((s = xml_getprop(node, "name")) == NULL)
 		return "<luserconf> is missing name= attribute";
 	HXmc_free(config->luserconf);
-	config->luserconf = HXmc_strinit(pent->pw_dir);
-	HXmc_strcat(&config->luserconf, "/");
+	config->luserconf = HXmc_strinit("");
+	if (strlen(s) < 1 || s[0] != '/') {
+		HXmc_strcat(&config->luserconf, pent->pw_dir);
+		HXmc_strcat(&config->luserconf, "/");
+	}
 	HXmc_strcat(&config->luserconf, s);
 	w4rn("path to luserconf set to %s\n", config->luserconf);
 	free(s);

@@ -230,7 +230,7 @@ extern struct config Config;
 /*
  *	RDCONF1.C
  */
-extern bool expandconfig(const struct config *);
+extern bool expandconfig(struct config *);
 extern void initconfig(struct config *);
 extern bool readconfig(const char *, bool, struct config *);
 extern void freeconfig(struct config *);
