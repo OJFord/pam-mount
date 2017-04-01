@@ -102,7 +102,7 @@ Specifies the mount options. If omitted and /etc/fstab is used (see
 .TP
 \fBssh="0"\fP or \fBssh="1"\fP
 The \fBssh\fP option enables an input hack wrapper (zerossh, see
-\fBpmt\-fd0ssh\fP(1)) for this volume to hand the password to ssh over an
+\fBfd0ssh\fP(1)) for this volume to hand the password to ssh over an
 ssh\-specific mechanism. Enable this option for any mount involving the SSH
 binary, e.g. ccgfs or sshfs. Do \fInot\fP enable it for anything else or the
 login will most likely hang.
