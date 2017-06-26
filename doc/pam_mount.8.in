@@ -94,7 +94,7 @@ pam_mount, as the first "auth" module, will prompt for a password and export it
 to the PAM system.
 .IP "2." 4
 pam_ldap will use the password from the PAM system to try and authenticate the
-user. If this succedes, the user will be authenticated. If it fails, pam_unix
+user. If this succeeds, the user will be authenticated. If it fails, pam_unix
 will try to authenticate.
 .IP "3." 4
 pam_unix will try to authenticate the user if pam_ldap failed. If pam_unix
@@ -112,7 +112,7 @@ auth optional pam_mount.so
 .PP
 It may seem odd, but the first three lines will make it so that at least one of
 pam_unix2 or pam_ldap has to succeed. As you can see, pam_mount will be run
-\fBafter\fR successful authentification with these subsystems.
+\fBafter\fR successful authentication with these subsystems.
 .SH Encrypted disks
 .PP
 pam_mount supports a few types of crypto. The most common are encfs, dm\-crypt
