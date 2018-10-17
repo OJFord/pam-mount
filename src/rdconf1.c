@@ -21,7 +21,8 @@
 #endif
 #include <libHX.h>
 #include <libHX/libxml_helper.h>
-#include <pcre.h>
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
 #include "libcryptmount.h"
 #include "pam_mount.h"
 
@@ -576,25 +577,25 @@ static inline bool parse_bool_f(char *s)
 static int pmt_strregmatch(const char *s, const char *pattern, bool icase)
 {
 	/* Mostly compile-time flags that are not valid for pcre_exec */
-	unsigned int flags = PCRE_DOLLAR_ENDONLY | PCRE_DOTALL |
-	                     PCRE_NO_AUTO_CAPTURE;
-	const char *error = NULL;
-	int erroffset, ret;
-	pcre *rd;
+	unsigned int flags = PCRE2_DOLLAR_ENDONLY | PCRE2_DOTALL |
+	                     PCRE2_NO_AUTO_CAPTURE;
+	int errcode = 0, ret;
+	PCRE2_SIZE erroffset;
+	pcre2_code_8 *rd;
+	PCRE2_UCHAR buffer[256];
+	pcre2_match_data *match_data;
 
 	if (icase)
-		flags |= PCRE_CASELESS;
-	rd = pcre_compile(pattern, flags, &error, &erroffset, NULL);
-	if (error != NULL) {
-		l0g("pcre_compile failed: %s at offset %d\n", error, erroffset);
-		return -1;
-	} else if (rd == NULL) {
-		l0g("pcre_compile failed: %s\n", strerror(errno));
+		flags |= PCRE2_CASELESS;
+	rd = pcre2_compile((PCRE2_SPTR)pattern, PCRE2_ZERO_TERMINATED, flags, &errcode, &erroffset, NULL);
+	if (rd == NULL) {
+		l0g("pcre2_compile failed: %s at offset %d\n", buffer, (int)erroffset);
 		return -1;
 	}
 
-	ret = pcre_exec(rd, NULL, s, strlen(s), 0, 0, NULL, 0);
-	if (ret == PCRE_ERROR_NOMATCH) {
+	match_data = pcre2_match_data_create_from_pattern(rd, NULL);
+	ret = pcre2_match(rd, (PCRE2_SPTR)s, strlen(s), 0, 0, match_data, 0);
+	if (ret == PCRE2_ERROR_NOMATCH) {
 		l0g("pcre_exec: no match\n");
 		ret = false;
 	} else if (ret < 0) {
@@ -604,7 +605,8 @@ static int pmt_strregmatch(const char *s, const char *pattern, bool icase)
 		ret = true;
 		l0g("pcre_exec: /%s/: %d matches\n", pattern, ret);
 	}
-	pcre_free(rd);
+	pcre2_match_data_free(match_data);
+	pcre2_code_free(rd);
 	return ret;
 }
 
