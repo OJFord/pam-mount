@@ -21,6 +21,12 @@
 #include "libcryptmount.h"
 #include "pam_mount.h"
 
+#ifndef CRYPT_LUKS
+	#define CRYPT_LUKS	NULL /* Passing NULL to crypt_load will
+					default to LUKS(1) on older
+					libcryptsetup versions. */
+#endif
+
 /**
  * dmc_is_luks - check if @path points to a LUKS volume (cf. normal dm-crypt)
  * @path:	path to the crypto container
@@ -48,7 +54,7 @@ EXPORT_SYMBOL int ehd_is_luks(const char *path, bool blkdev)
 
 	ret = crypt_init(&cd, device);
 	if (ret == 0) {
-		ret = crypt_load(cd, CRYPT_LUKS1, NULL);
+		ret = crypt_load(cd, CRYPT_LUKS, NULL);
 		if (ret == -EINVAL)
 			ret = false;
 		else if (ret == 0)
@@ -106,7 +112,7 @@ static bool dmc_run(const struct ehd_mount_request *req,
 #endif
 	}
 
-	ret = crypt_load(cd, CRYPT_LUKS1, NULL);
+	ret = crypt_load(cd, CRYPT_LUKS, NULL);
 	if (ret == 0) {
 		ret = crypt_activate_by_passphrase(cd, mt->crypto_name,
 		      CRYPT_ANY_SLOT, req->key_data, req->key_size, flags);
