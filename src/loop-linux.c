@@ -73,8 +73,8 @@ EXPORT_SYMBOL int ehd_loop_setup(const char *filename, char **result, bool ro)
 			continue;
 		}
 		memset(&info, 0, sizeof(info));
-		strncpy(signed_cast(char *, info.lo_file_name),
-		        filename, LO_NAME_SIZE);
+		HX_strlcpy(signed_cast(char *, info.lo_file_name),
+		           filename, LO_NAME_SIZE);
 		if (ioctl(loopfd, LOOP_SET_FD, filefd) < 0) {
 			close(loopfd);
 			continue;
