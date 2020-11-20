@@ -1,8 +1,11 @@
 
 For details, see the history as recorded in the git repository.
 
-HEAD
-====
+v2.17
+=====
+Changes:
+* Programs are now unequivocally installed to ${sbindir}
+  (usually /usr(/local)/sbin) and never /sbin anymore.
 
 
 v2.16 (2016-09-23)

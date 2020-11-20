@@ -7,7 +7,7 @@
 #	the Free Software Foundation; either version 2 of the License, or
 #	(at your option) any later version.
 #
-AC_INIT([pam_mount], [2.16])
+AC_INIT([pam_mount], [2.17])
 PACKAGE_RELDATE="2016-09-23"
 AC_PREREQ([2.59])
 AC_CONFIG_AUX_DIR([build-aux])
