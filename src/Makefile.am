@@ -7,11 +7,10 @@ AM_CFLAGS = ${regular_CFLAGS} ${GCC_FVISIBILITY_HIDDEN}
 
 moduledir		= @PAM_MODDIR@
 module_LTLIBRARIES	= pam_mount.la
-sbin_PROGRAMS		= pmvarrun
+sbin_PROGRAMS		= mount.crypt pmvarrun
 if HAVE_LIBCRYPTSETUP
 sbin_PROGRAMS		+= pmt-ehd
 endif
-ssbin_PROGRAMS		= mount.crypt
 noinst_PROGRAMS		= autoloop
 noinst_SCRIPTS 		= umount.crypt
 
@@ -103,12 +102,12 @@ mtcrypt_symlinks = \
 	mount.crypt_LUKS${EXEEXT} umount.crypt_LUKS${EXEEXT}
 
 install-exec-hook:
-	${MKDIR_P} ${DESTDIR}${ssbindir};
+	${MKDIR_P} ${DESTDIR}${sbindir};
 	-for i in ${mtcrypt_symlinks}; do \
-		${LN_S} -f mount.crypt${EXEEXT} "${DESTDIR}${ssbindir}/$$i"; \
+		${LN_S} -f mount.crypt${EXEEXT} "${DESTDIR}${sbindir}/$$i"; \
 	done;
 
 uninstall-hook:
 	-for i in ${mtcrypt_symlinks}; do \
-		rm "${DESTDIR}${ssbindir}/$$i"; \
+		rm "${DESTDIR}${sbindir}/$$i"; \
 	done;
