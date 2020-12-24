@@ -23,6 +23,7 @@
 #include <libHX/ctype_helper.h>
 #include <libHX/defs.h>
 #include <libHX/init.h>
+#include <libHX/io.h>
 #include <libHX/misc.h>
 #include <libHX/option.h>
 #include <libHX/proc.h>
