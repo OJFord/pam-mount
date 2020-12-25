@@ -352,8 +352,15 @@ home directory as retrievable through getpwent(3).
 .PP
 Not specifying any path after the colon (:) uses the path whereever ssh will
 put you in, usually the home directory.
+With \fBfd0ssh\fP (package hxtools) installed:
 .PP
 <volume fstype="fuse" path="sshfs#%(USER)@fileserver:" mountpoint="~" />
+.PP
+Without \fBfd0ssh\fP:
+.PP
+<volume fstype="fuse" path="sshfs#%(USER)@fileserver:" mountpoint="~"
+options="nosuid,nodev,noatime,reconnect,nonempty,allow_other,default_permissions,password_stdin"
+ssh="0" noroot="0" />
 .PP
 <volume fstype="fuse" path="ccgfs\-ssh\-pull#%(USER)@host:directory"
 mountpoint="~" />
