@@ -20,14 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <libHX/ctype_helper.h>
-#include <libHX/defs.h>
-#include <libHX/init.h>
-#include <libHX/io.h>
-#include <libHX/misc.h>
-#include <libHX/option.h>
-#include <libHX/proc.h>
-#include <libHX/string.h>
+#include <libHX.h>
 #include <security/pam_appl.h>
 #include <libcryptsetup.h>
 #include <pwd.h>
