@@ -354,7 +354,8 @@ Not specifying any path after the colon (:) uses the path whereever ssh will
 put you in, usually the home directory.
 With \fBfd0ssh\fP (package hxtools) installed:
 .PP
-<volume fstype="fuse" path="sshfs#%(USER)@fileserver:" mountpoint="~" />
+<volume fstype="fuse" path="sshfs#%(USER)@fileserver:" mountpoint="~"
+ssh="1" />
 .PP
 Without \fBfd0ssh\fP:
 .PP
