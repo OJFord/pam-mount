@@ -7,7 +7,6 @@ dist_man_MANS = mount.crypt.8 mount.crypt_LUKS.8 mount.crypto_LUKS.8 \
 		umount.crypto_LUKS.8
 EXTRA_DIST = bugs.txt faq.txt install.txt news.txt options.txt todo.txt \
 	pam_mount.8.in pam_mount.conf.5.in
-DISTCLEANFILES = pam_mount.txt
 CLEANFILES = ${man_MANS}
 
 replcmd = perl -lpe 's/\@''PACKAGE\@/@PACKAGE@/g;s/\@''PACKAGE_VERSION\@/@PACKAGE_VERSION@/g;s/\@''PACKAGE_RELDATE\@/@PACKAGE_RELDATE@/g;'
@@ -17,6 +16,3 @@ pam_mount.8: pam_mount.8.in ${top_builddir}/config.status
 
 pam_mount.conf.5: pam_mount.conf.5.in ${top_builddir}/config.status
 	${AM_V_GEN}${replcmd} ${srcdir}/pam_mount.conf.5.in >pam_mount.conf.5;
-
-pam_mount.txt: pam_mount.8
-	${AM_V_GEN}man -l pam_mount.8 | perl -pe 's/.\cH//g' >pam_mount.txt;
