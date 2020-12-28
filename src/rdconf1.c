@@ -587,14 +587,17 @@ static int pmt_strregmatch(const char *s, const char *pattern, bool icase)
 
 	if (icase)
 		flags |= PCRE2_CASELESS;
-	rd = pcre2_compile((PCRE2_SPTR)pattern, PCRE2_ZERO_TERMINATED, flags, &errcode, &erroffset, NULL);
+	rd = pcre2_compile(reinterpret_cast(PCRE2_SPTR, pattern),
+	     PCRE2_ZERO_TERMINATED, flags, &errcode, &erroffset, NULL);
 	if (rd == NULL) {
-		l0g("pcre2_compile failed: %s at offset %d\n", buffer, (int)erroffset);
+		l0g("pcre2_compile failed: %s at offset %d\n",
+		    buffer, static_cast(int, erroffset));
 		return -1;
 	}
 
 	match_data = pcre2_match_data_create_from_pattern(rd, NULL);
-	ret = pcre2_match(rd, (PCRE2_SPTR)s, strlen(s), 0, 0, match_data, 0);
+	ret = pcre2_match(rd, reinterpret_cast(PCRE2_SPTR, s), strlen(s),
+	      0, 0, match_data, 0);
 	if (ret == PCRE2_ERROR_NOMATCH) {
 		l0g("pcre_exec: no match\n");
 		ret = false;
