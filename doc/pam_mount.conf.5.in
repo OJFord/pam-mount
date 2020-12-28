@@ -68,7 +68,7 @@ may fail if the filesystem kernel module is not loaded yet, since \fBmount\fP(8)
 will check /proc/partitions.
 .IP ""
 The fstypes \fBcifs\fP, \fBsmbfs\fP, \fBncpfs\fP, \fBfuse\fP,
-\fBnfs\fP and \fBnfs\fP are overridden by pam_mount and we run the respective
+\fBnfs\fP and \fBnfs4\fP are overridden by pam_mount and we run the respective
 helper programs directly instead of invoking \fBmount\fP(8) with the basic
 default set of arguments which are often insufficient for networked
 filesystems. See this manpage's section "Examples" below for more details.
