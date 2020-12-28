@@ -365,6 +365,10 @@ ssh="0" noroot="0" />
 .PP
 <volume fstype="fuse" path="ccgfs\-ssh\-pull#%(USER)@host:directory"
 mountpoint="~" />
+.PP
+Note that sshfs's "password_stdin" option tries to locate a string "assword"
+on ssh's output, while fd0ssh is rather using the "askpass" API, which might
+also work with passphrase-protected SSH keys whose prompt is quite different.
 .SS encfs 1.4.x and up
 .PP
 <volume fstype="fuse" path="encfs#/crypto/%(USER)" mountpoint="~"
