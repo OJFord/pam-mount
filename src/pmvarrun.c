@@ -215,7 +215,7 @@ static void parse_args(int argc, const char **argv, struct settings *settings)
  */
 static int modify_pm_count(const char *user, long amount)
 {
-	char filename[PATH_MAX + 1];
+	hxmc_t *filename = NULL;
 	struct passwd *pent;
 	struct stat sb;
 	int fd, ret;
@@ -240,14 +240,21 @@ static int modify_pm_count(const char *user, long amount)
 			return ret;
 	}
 
-	snprintf(filename, sizeof(filename), VAR_RUN_PMT "/%s", user);
+	filename = HXmc_strinit(VAR_RUN_PMT);
+	if (filename == NULL ||
+	    HXmc_strcat(&filename, "/") == NULL ||
+	    HXmc_strcat(&filename, user) == NULL)
+		return -errno;
 	while ((ret = fd = open_and_lock(filename, pent->pw_uid)) == -EAGAIN)
 		/* noop */;
-	if (ret < 0)
+	if (ret < 0) {
+		HXmc_free(filename);
 		return ret;
+	}
 
 	if ((val = read_current_count(fd, filename)) < 0) {
 		close(fd);
+		HXmc_free(filename);
 		return val;
 	}
 
@@ -258,6 +265,7 @@ static int modify_pm_count(const char *user, long amount)
 		ret = write_count(fd, val + amount, filename);
 
 	close(fd);
+	HXmc_free(filename);
 	return (ret < 0) ? ret : val + amount;
 }
 
