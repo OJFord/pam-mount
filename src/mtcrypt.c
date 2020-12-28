@@ -23,9 +23,6 @@
 #include <libHX.h>
 #include "libcryptmount.h"
 #include "pam_mount.h"
-#ifdef HAVE_LIBCRYPTO
-#	include <openssl/evp.h>
-#endif
 #include "cmt-internal.h"
 
 /**
