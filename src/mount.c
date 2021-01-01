@@ -115,7 +115,8 @@ static void run_ofl(const struct config *const config, const char *mntpt,
 }
 
 /**
- * Compares a given utab entry to the volume. crypt-type volumes will always
+ * Compares a given utab entry to the combopath (vpt->combopath == 
+ * vpt->volume for non-network volumes). crypt-type volumes will always
  * be compared case-sensitive since they always use an existing file.
  */
 static bool pmt_utabent_matches(const struct vol *vpt, struct libmnt_fs *fs)
@@ -127,7 +128,7 @@ static bool pmt_utabent_matches(const struct vol *vpt, struct libmnt_fs *fs)
 
 	xcmp = fstype2_icase(vpt->type) ? strcasecmp : strcmp;
 	if (source != NULL)
-		result = xcmp(vpt->volume, source) == 0;
+		result = xcmp(vpt->combopath, source) == 0;
 	if (target != NULL)
 		result &= strcmp(vpt->mountpoint, target) == 0;
 	return result;
