@@ -1,8 +1,17 @@
 
-For details, see the history as recorded in the git repository.
+v2.18 (2021-01-04)
+==================
+Import patches from the Debian project.
+Changes:
+* The build now uses PCRE2 instead of PCRE1.
+* Cure mount.crypt recursively executing itself with -t crypt
+Enhancements:
+* Allow luserconf to be placed outside home directory
+* Documentation updates
 
-v2.17
-=====
+
+v2.17 (2020-11-20)
+==================
 Changes:
 * Programs are now unequivocally installed to ${sbindir}
   (usually /usr(/local)/sbin) and never /sbin anymore.
