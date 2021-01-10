@@ -68,9 +68,12 @@ EXPORT_SYMBOL int cryptmount_init(void)
 			return ret;
 		}
 #ifdef HAVE_LIBCRYPTO
+#if OPENSSL_VERSION_NUMBER >= 0x1010000fL
+#else
 		OpenSSL_add_all_algorithms();
 		OpenSSL_add_all_ciphers();
 		OpenSSL_add_all_digests();
+#endif
 #endif
 	}
 	++ehd_use_count;
