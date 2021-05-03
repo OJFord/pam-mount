@@ -127,10 +127,19 @@ static bool pmt_utabent_matches(const struct vol *vpt, struct libmnt_fs *fs)
 	bool result = false;
 
 	xcmp = fstype2_icase(vpt->type) ? strcasecmp : strcmp;
-	if (source != NULL)
-		result = xcmp(vpt->combopath, source) == 0;
+	if (source != NULL) {
+		if (strcmp(vpt->fstype, "fuse") != 0)
+			result = xcmp(vpt->combopath, source) == 0;
+		else {
+			size_t len_combopath = strlen(vpt->combopath);
+			size_t len_source = strlen(source);
+			result = xcmp(vpt->combopath + len_combopath - len_source, source) == 0;
+		}
+	}
+
 	if (target != NULL)
 		result &= strcmp(vpt->mountpoint, target) == 0;
+
 	return result;
 }
 
